@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "k0NwMcKR3SpaxYF/vBZQx6RiphuR0KKftZEWJc3WIlxkyVi0noMap1CwcwYEJNQG1ORDH3cjvXCEekVaX4FTNg==",
+  "success": true,
+  "projectFilePath": "/home/ratralta/Área de trabalho/jogos/jogo_da_velha/jogo_da_velha.csproj",
+  "expectedPackageFiles": [
+    "/home/ratralta/.nuget/packages/raylib-cs/7.0.2/raylib-cs.7.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}
