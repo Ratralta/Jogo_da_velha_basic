@@ -15,7 +15,6 @@ namespace GM_F; // faz parte de "GM_F"
     // ########### Variáveis 
         public List<Segment> segments_list; // lista de objetos "Segment"
         public Vector2 possition; // posição geral
-        public List<Vector2> matriz = new List<Vector2>(); // lista contendo a "Id" de cada "segment"
     // ###########
 
     // ########### Constructor 
@@ -53,13 +52,13 @@ namespace GM_F; // faz parte de "GM_F"
                 int size_size = matriz_size_return(lista_quantidade); // raiz quadrada de "lista_quantidade", gerando o tamanho do quadrado desenhado E convertendo para int                
                 int x; // x adicional 
                 int y; // y adicional
-                int matriz_x;
-                int matriz_y;
+                int id_x;
+                int id_y;
                 for(int i=0;i<lista_quantidade;) // loop
                 {
                     for(int ii=0;ii<size_size;ii++) // loop X
                     {
-                    matriz_x = ii;
+                    id_x = ii;
                         if (i<lista_quantidade)  // se ainda existir algum segment disponivel [X]
                         {
                             for(int iii=0;iii<size_size;iii++) // loop Y
@@ -73,22 +72,20 @@ namespace GM_F; // faz parte de "GM_F"
                                     {
                                     y = textura_especifica.Height * size_size;
                                     x = textura_especifica.Width * iii; // ajustando "x" pois esse é o ultimo loop
-                                    matriz_x = iii;
-                                    matriz_y = size_size;
+                                    id_x = iii;
+                                    id_y = size_size;
                                     }
                                     else // se "i" for menor que "lista_quantidade"
                                     {
                                     y = textura_especifica.Height * iii;
-                                    matriz_y = iii;
+                                    id_y = iii;
                                     }
                                 int _x = Convert.ToInt16(possition.X); // posição de "Segment_meneger"
                                 int _y = Convert.ToInt16(possition.Y);
 
-                                i_segment.Id[0] = matriz_x;
-                                i_segment.Id[1] = matriz_y;
-                                //matriz[matriz_x,matriz_y] = new Vector2(matriz_x,matriz_y);
-                                matriz.Add(new Vector2(matriz_x,matriz_y));
-
+                                i_segment.Id[0] = id_x;
+                                i_segment.Id[1] = id_y;
+                                //matriz[id_x,id_y] = new Vector2(id_x,id_y);
                                 i_segment.me_update_location(_x+x,_y+y);
                                 i++;
                                 }                                
@@ -114,25 +111,14 @@ namespace GM_F; // faz parte de "GM_F"
             i.id_draw();
             }
         }
-        public string matriz_itens_return() // retorna como strings, todos os itens de "matriz"
-        {
-        string retorno = "{";
-            foreach(Vector2 i in matriz)
-            {
-            retorno += i;
-            retorno += ",";
-            }
-        retorno += "}";
-        return retorno;
-        }
         // fazer função que retorna numa lista, uma linha de segmentos que faz velha.
-        public void matriz_line_check(Vector2 _Id_possition,int _check_size) 
+        public void matriz_line_check(Vector2 _Id_possition,int _check_size) // checa se fez um velha,
         {
         Segment seg_inicial = segment_get_segment_by_Id(_Id_possition);
         Teams ini_team = seg_inicial.fragmento.team; 
 
         Vector2 ini_posi = seg_inicial.possition; // posição que irá criar chamar os "matriz_line_check_timer()"
-        List<Segment> lista = new List<Segment>(){seg_inicial}; // lista que irá os segmentos "in_line"
+        List<Segment> lista = new List<Segment>(); // lista que irá os segmentos "in_line"
 
             
             for(int i=-1;i<2;i++)
@@ -150,28 +136,19 @@ namespace GM_F; // faz parte de "GM_F"
                     {
                         if (i!=0 || ii!=0) // se não for (0,0)
                         {
-                        segment_in_line_put(tes);
+                        segment_in_line_put(tes,pos);
                         return;  
                         }
                     }
                 }        
             }
-            /*
-            var tes1 = new Vector2(1,0);
-            var lista_retorno = new List<Segment>();
-            var check = matriz_line_check_reverse(_Id_possition,tes1,_check_size,_check_size,lista_retorno,ini_team);
-            if (check != null)
-            {
-            segment_in_line_put(lista_retorno);
-            }
-            */
         }
         private List<Segment>? matriz_line_check_timer(Vector2 _Id_possition_atual,Vector2 _vector_flex,int _check_size_timer,List<Segment> _lista_in_line,Teams _team) // confere e retorna "Segments" que foram "velha" numa linha reta.
         {
         Segment? my_seg = segment_get_segment_by_Id(_Id_possition_atual);
             if (my_seg != null) // se existir
             {
-                if(my_seg.fragmento.ocupado == true && my_seg.fragmento.in_line == false && _team == my_seg.fragmento.team) // se estiver ocupado E não tiver "in_line" E "team" for igual a "_team"
+                if(my_seg.ocupado == true && my_seg.in_line == false && _team == my_seg.fragmento.team) // se estiver ocupado E não tiver "in_line" E "team" for igual a "_team"
                 {
                 _lista_in_line.Add(my_seg); // adicioando segment "my_seg"
                         if(_check_size_timer > 0) // se ainda estiver num loop
@@ -197,7 +174,7 @@ namespace GM_F; // faz parte de "GM_F"
         Segment? my_seg_reverse = segment_get_segment_by_Id(reverse_vector);
             if(my_seg_reverse != null) // se existe segmento ao contrario.
             {
-                if(my_seg_reverse.fragmento.ocupado == true && my_seg_reverse.fragmento.in_line == false && _team == my_seg_reverse.fragmento.team)
+                if(my_seg_reverse.ocupado == true && my_seg_reverse.in_line == false && _team == my_seg_reverse.fragmento.team)
                 {
                     if(_check_size_timer>0) // estiver no loop
                     {
@@ -218,13 +195,45 @@ namespace GM_F; // faz parte de "GM_F"
             return matriz_line_check_timer(_Id_possition_atual,_vector_flex,_check_size_true,_lista_in_line,_team);
             }
         }
-        public void segment_in_line_put(List<Segment> _lista_segmentos) // coloca segmentos no estado "in_line"
+        public void segment_in_line_put(List<Segment> _lista_segmentos,Vector2 _pos) // coloca segmentos no estado "in_line"
         {
-            foreach(var i in _lista_segmentos)
+        int list_size = _lista_segmentos.Count();
+        string textura_to_set;
+        Console.WriteLine(_pos);
+
+            for(var i=0;i<list_size;i++)
             {
-            i.fragmento.in_line = true;
-            i.cor = Color.Red;   
-            }
+            var i_segment = _lista_segmentos[i];
+            Vector2 size =  new Vector2(i_segment.size,i_segment.size); // definindo tamanho da linha
+
+                float angle = 0; // definindo angulo de "line"
+                if (_pos.X == -1 && _pos.Y == -1)
+                {angle= -315;}
+                if (_pos.X == -1 && _pos.Y ==  0)
+                {angle= 0;}
+                if (_pos.X == -1 && _pos.Y ==  1)
+                {angle= 315;}
+                if (_pos.X == 0 && _pos.Y == -1)
+                {angle= -270;}
+                if (_pos.X == 0 && _pos.Y == 1)
+                {angle= 270;}
+                if (_pos.X == 1 && _pos.Y == -1)
+                {angle= 135;}
+                if (_pos.X == 1 && _pos.Y == 1)
+                {angle= -135;}
+
+
+                if(i == list_size-1 | i== 0) // definindo textura de "line"
+                {
+                textura_to_set = "assets/imagens/line_2_jogo_da_velha.png";
+                }
+                else
+                {
+                textura_to_set = "assets/imagens/line_1_jogo_da_velha.png";    
+                }        
+            Texture2D textura_line = Raylib.LoadTexture(textura_to_set); // textura do line
+            i_segment.line_set(textura_line,angle,size); // colocando linha em "i_segment"
+            }   
         }
         public Segment segment_get_segment_by_Id(Vector2 _Id_possition) // retorna um "segment" de "segment_list" atráves da "Id"
         {
