@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using System.Reflection;
 using Raylib_cs;
 namespace HelloWorld;
 internal static class Program
@@ -22,7 +23,6 @@ internal static class Program
 		{
 		i.matriz_create(1);
 		}
-
 	 
 	 	string imagem_x = "assets/imagens/x_jogo_da_velha.png";
 	 	string imagem_o = "assets/imagens/o_jogo_da_velha.png";

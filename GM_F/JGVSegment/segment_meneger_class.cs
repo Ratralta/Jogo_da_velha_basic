@@ -204,23 +204,29 @@ namespace GM_F; // faz parte de "GM_F"
             for(var i=0;i<list_size;i++)
             {
             var i_segment = _lista_segmentos[i];
-            Vector2 size =  new Vector2(i_segment.size,i_segment.size); // definindo tamanho da linha
+            int _x = i_segment.size * 20/100;
+            int _y = i_segment.size + i_segment.size  * 20/100;
+            Vector2 size =  new Vector2(_x,_y); // definindo tamanho da linha
+            Color i_cor = i_segment.fragmento.cor; // cor do "fragmento"
+            int animacao_iniciar_timer = 10*i; 
 
                 float angle = 0; // definindo angulo de "line"
                 if (_pos.X == -1 && _pos.Y == -1)
-                {angle= -315;}
-                if (_pos.X == -1 && _pos.Y ==  0)
-                {angle= 0;}
-                if (_pos.X == -1 && _pos.Y ==  1)
                 {angle= 315;}
+                if (_pos.X == -1 && _pos.Y ==  0)
+                {angle= 90;}
+                if (_pos.X == -1 && _pos.Y ==  1)
+                {angle= 45;}
                 if (_pos.X == 0 && _pos.Y == -1)
-                {angle= -270;}
+                {angle= 180;}
                 if (_pos.X == 0 && _pos.Y == 1)
-                {angle= 270;}
+                {angle= 180; }
                 if (_pos.X == 1 && _pos.Y == -1)
-                {angle= 135;}
+                {angle= 45;}
                 if (_pos.X == 1 && _pos.Y == 1)
-                {angle= -135;}
+                {angle= 135;}
+                if (_pos.X == 1 && _pos.Y == 0)
+                {angle= 90;}
 
 
                 if(i == list_size-1 | i== 0) // definindo textura de "line"
@@ -230,9 +236,11 @@ namespace GM_F; // faz parte de "GM_F"
                 else
                 {
                 textura_to_set = "assets/imagens/line_1_jogo_da_velha.png";    
+                size.Y +=  i_segment.size * 50/100;
                 }        
             Texture2D textura_line = Raylib.LoadTexture(textura_to_set); // textura do line
-            i_segment.line_set(textura_line,angle,size); // colocando linha em "i_segment"
+            i_segment.line_set(textura_line,angle,size,i_cor,i_segment.possition,animacao_iniciar_timer); // colocando linha em "i_segment"
+            //i_segment.fragmento.my_linha.animacao_iniciar_timer = animacao_iniciar_timer; // colocando timer da animação
             }   
         }
         public Segment segment_get_segment_by_Id(Vector2 _Id_possition) // retorna um "segment" de "segment_list" atráves da "Id"

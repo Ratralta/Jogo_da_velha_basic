@@ -19,7 +19,7 @@ static public partial class JGVSegment
         public bool ocupado = false;
         public bool in_line = false; // se alguma forma foi marcada
         public Vector2 possition; // posição do segmento  
-            public class Fragment
+            public class Fragment // definido na função "fragment_set()"
             {
             public Texture2D textura;
             public Color cor;
@@ -27,11 +27,16 @@ static public partial class JGVSegment
             public Vector2 possition;
             public Line my_linha = new Line();
             }
-            public class Line
+            public class Line // definido na função "line_set()"
             {
             public Texture2D textura; // textura da linha
             public float angle;
             public Vector2 size;
+            public Color cor; 
+            public Vector2 possition;
+            public Animations.Animation? animacao; 
+            public int animacao_iniciar_timer = 0; // timer pra animação iniciar
+            public int alpha;
             }
         public Fragment fragmento = new Fragment();
     // ########### 
@@ -112,12 +117,29 @@ static public partial class JGVSegment
                 Raylib.DrawTexture(fragmento.textura,_x,_y,fragmento.cor);
             }
         }
-        public void line_set(Texture2D _textura ,float _angle,Vector2 _size)
+        public void line_set(Texture2D _textura ,float _angle,Vector2 _size,Color _cor,Vector2 _possition,int _animacao_timer)
         {
         in_line = true; // deixando o "segment" em "in line"
-        fragmento.my_linha.angle = _angle; // definindo angulo de "line"
-        fragmento.my_linha.textura = _textura; // adicionando textura a "line"
-        fragmento.my_linha.size = _size; // definindo tamanho de "line"
+        Line linha = fragmento.my_linha; // linha
+
+        linha.angle = _angle; // definindo angulo de "line"
+        linha.textura = _textura; // adicionando textura a "line"
+        linha.size = _size; // definindo tamanho de "line"
+        linha.cor = _cor;
+        linha.possition.X = _possition.X+textura.Width/2; // posição X da linha
+        linha.possition.Y = _possition.Y+textura.Height/2;
+        linha.animacao_iniciar_timer = _animacao_timer;
+        line_set_animation();
+        }
+        public void line_set_animation() // definindo animação da linha
+        {
+        Line linha = fragmento.my_linha;
+        Vector2 pivot = new Vector2(linha.size.X/2,linha.size.Y/2); // pivot 
+        linha.animacao = new Animations.Animation(linha.possition,linha.cor,linha.alpha,linha.angle,linha.size,30,linha.textura,pivot,linha.animacao_iniciar_timer); // criando objeto "Animation"
+        Animations.Animation anima = linha.animacao; // anima = linha.animacao
+
+        GM_F.Animations.set_value_accretion(anima.animacao.angle_timer,0,1,0,-linha.angle);
+        GM_F.Animations.set_value_accretion(anima.animacao.angle_timer,1,30,-linha.angle,linha.angle);
         }
         public void line_draw()
         {
@@ -125,14 +147,32 @@ static public partial class JGVSegment
             {               
                 var linha = fragmento.my_linha;
                 //fragmento.line_angle += 1;
-                int _x = Convert.ToInt16(fragmento.possition.X+textura.Width/2);
-                int _y = Convert.ToInt16(fragmento.possition.Y+textura.Height/2);
+                int _x = Convert.ToInt16(linha.possition.X);
+                int _y = Convert.ToInt16(linha.possition.Y);
+                //linha.angle += 1;
                 //linha.size.X += 1;
                 
                 Rectangle source = new Rectangle(0,0,linha.textura.Width,linha.textura.Height);
                 Rectangle dest= new Rectangle(_x,_y,linha.size.X,linha.size.Y);
-                Vector2 pivot = new Vector2(textura.Width/2,textura.Height/2); 
-                Raylib.DrawTexturePro(linha.textura,source,dest,pivot,linha.angle,fragmento.cor);
+                Vector2 pivot = new Vector2(linha.size.X/2,linha.size.Y/2); 
+
+                if (linha.animacao != null)
+                {
+                var animacao = linha.animacao; // obj da animação
+                    if (animacao.animacao_terminou == false)
+                    {
+                    animacao.animation_draw();
+                    animacao.frame_next();
+                    }
+                    else
+                    {
+                    linha.animacao = null;
+                    }
+                }
+                if (linha.animacao == null)
+                {
+                Raylib.DrawTexturePro(linha.textura,source,dest,pivot,linha.angle,linha.cor);
+                }
             }
         }
     // ###########      

@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = jogo_da_velha
-build_property.ProjectDir = /home/ratralta/Área de trabalho/jogos/jogo_da_velha/
+build_property.ProjectDir = /home/ratralta/Área de trabalho/jogos/Jogo_da_velha_basic/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

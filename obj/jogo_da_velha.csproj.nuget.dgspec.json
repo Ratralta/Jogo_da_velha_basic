@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/ratralta/Área de trabalho/jogos/jogo_da_velha/jogo_da_velha.csproj": {}
+    "/home/ratralta/Área de trabalho/jogos/Jogo_da_velha_basic/jogo_da_velha.csproj": {}
   },
   "projects": {
-    "/home/ratralta/Área de trabalho/jogos/jogo_da_velha/jogo_da_velha.csproj": {
+    "/home/ratralta/Área de trabalho/jogos/Jogo_da_velha_basic/jogo_da_velha.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/ratralta/Área de trabalho/jogos/jogo_da_velha/jogo_da_velha.csproj",
+        "projectUniqueName": "/home/ratralta/Área de trabalho/jogos/Jogo_da_velha_basic/jogo_da_velha.csproj",
         "projectName": "jogo_da_velha",
-        "projectPath": "/home/ratralta/Área de trabalho/jogos/jogo_da_velha/jogo_da_velha.csproj",
+        "projectPath": "/home/ratralta/Área de trabalho/jogos/Jogo_da_velha_basic/jogo_da_velha.csproj",
         "packagesPath": "/home/ratralta/.nuget/packages/",
-        "outputPath": "/home/ratralta/Área de trabalho/jogos/jogo_da_velha/obj/",
+        "outputPath": "/home/ratralta/Área de trabalho/jogos/Jogo_da_velha_basic/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/ratralta/.nuget/NuGet/NuGet.Config"

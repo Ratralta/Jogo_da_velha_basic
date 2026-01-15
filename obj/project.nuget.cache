@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "k0NwMcKR3SpaxYF/vBZQx6RiphuR0KKftZEWJc3WIlxkyVi0noMap1CwcwYEJNQG1ORDH3cjvXCEekVaX4FTNg==",
+  "dgSpecHash": "8m8x42+wEE6FMKk9WjnIzYE8HDTCbDBBkxVo3wCXOOdpTGcSr+ZWZEGbgDc0FzGbgFE4hLbWen3JAXw/FJaQYg==",
   "success": true,
-  "projectFilePath": "/home/ratralta/Área de trabalho/jogos/jogo_da_velha/jogo_da_velha.csproj",
+  "projectFilePath": "/home/ratralta/Área de trabalho/jogos/Jogo_da_velha_basic/jogo_da_velha.csproj",
   "expectedPackageFiles": [
     "/home/ratralta/.nuget/packages/raylib-cs/7.0.2/raylib-cs.7.0.2.nupkg.sha512"
   ],
